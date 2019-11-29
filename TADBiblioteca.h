@@ -4,16 +4,17 @@
 #include <stdio.h>
 #include "TADTexto.h"
 
-#define MAXBIBLIOTECA 2 //10 x 1000 x 100
+#define MAXBIBLIOTECA 100
 
 typedef struct{
     TTexto textos[MAXBIBLIOTECA];
-    int tamanho;
+    int tamBiblioteca;
 }TBiblioteca;
 
 void inicializaBiblioteca(TBiblioteca* Biblioteca);
 void insereTexto(TBiblioteca* Biblioteca, TTexto* texto);
-void removeTexto(TBiblioteca* Biblioteca, TTexto* texto);
+void removeTexto(TBiblioteca* Biblioteca, int pos);
+void removeTextoLoop(TBiblioteca* Biblioteca);
 void imprimeBiblioteca(TBiblioteca* Biblioteca);
 void tamanhoBiblioteca(TBiblioteca* Biblioteca);
 

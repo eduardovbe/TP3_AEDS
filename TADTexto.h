@@ -4,8 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#define MAXTEXTO 5//1000 x 100
-
+#define MAXTEXTO 100
 
 typedef struct{
     int numeroPalavras;
@@ -14,7 +13,8 @@ typedef struct{
 
 void inicializaTexto(TTexto* texto);
 void inserePalavra(TTexto* texto, TPalavra* palavra);
-void removePalavra(TTexto* texto, TPalavra* palavra);
+void removePalavra(TTexto* texto, int pos);
+void removePalavraLoop(TTexto* texto);
 void imprimeTexto(TTexto* texto);
 void tamanhoTexto(TTexto* texto);
 

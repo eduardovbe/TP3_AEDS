@@ -1,12 +1,12 @@
 #include "TADPalavra.h"
 void inicializaPalavra(TPalavra* palavra)
 {
+    palavra->palavra[0] = '\0';
     palavra->tamanho = 0;
 }
 void insereLetra(TPalavra* palavra, char letra)
 {
-    int local = palavra->tamanho;
-    palavra->palavra[local] = letra;
+    palavra->palavra[palavra->tamanho] = letra;
     palavra->tamanho++;
 }
 
@@ -36,6 +36,16 @@ void removeLetra(TPalavra* palavra, char letra)
        }
     }
     palavra->tamanho--;
+}
+
+void removeLetraLoop(TPalavra* palavra)
+{
+    int y = palavra->tamanho;
+    int z;
+    for(z = 0; z < y; z++)
+    {
+        removeLetra(palavra, palavra->palavra[0]);
+    }
 }
 
 void imprimePalavra(TPalavra palavra)

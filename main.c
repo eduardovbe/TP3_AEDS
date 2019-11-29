@@ -7,7 +7,8 @@
 
 int main()
 {
-    int input,x,y,z;
+    int input, input2,input3 ,x,y,z;
+    int inicializado = 0;
     char inputLetra;
     input = -2;
     TPalavra word;
@@ -23,7 +24,6 @@ int main()
     printf("| 1) Modo Manual         |\n");
     printf("|========================|\n\n");
 
-
     scanf("%d", &input);
     printf("\n");
 
@@ -31,7 +31,13 @@ int main()
     {
     while(input != 99)
     {
+        #if WIN32
         system("cls");
+        #endif // WIN32
+
+        #if __linux__
+        system("Clear");
+        #endif // __linux__
         printf("|===========================|\n");
         printf("|            Menu           |\n");
         printf("| 0) Inicializar funcoes    |\n");
@@ -44,80 +50,128 @@ int main()
         printf("| 7) Imprimir Palavra       |\n");
         printf("| 8) Imprimir Texto         |\n");
         printf("| 9) Imprimir Biblioteca    |\n");
-        printf("| 10) Sair do programa      |\n");
-        printf("| 11) Modo Manual           |\n");
+        printf("| 10) Modo Manual           |\n");
+        printf("| 11) Sair do programa      |\n");
         printf("|===========================|\n\n");
 
         scanf("%d", &input);
         if(input == 0)
         {
-            inicializaPalavra(&word);
-            inicializaTexto(&text);
-            inicializaBiblioteca(&bib);
+            if(inicializado == 1)
+            {
+                removeLetraLoop(&word);
+                removePalavraLoop(&text);
+                removeTextoLoop(&bib);
+            }
+            else
+            {
+                inicializaPalavra(&word);
+                inicializaTexto(&text);
+                inicializaBiblioteca(&bib);
+                inicializado = 1;
+            }
         }
         if(input == 1)
         {
             printf("==Insira o numero de letras da palavra: ");
             //getchar();
             scanf("%d", &input);
+            removeLetraLoop(&word);
             for(x = 0; x < input; x++)
             {
                 inputLetra = (rand() % 25) + 65;
                 insereLetra(&word, inputLetra);
             }
-            //inputLetra = (rand() % 25) + 65;
-            //insereLetra(&word, inputLetra);
-            //insereTexto(&bib);
             input = -1;
         }
         if(input == 2)
         {
-
-
+            printf("Insira o numero de palavras do texto: ");
+            scanf("%d", &input);
+            printf("Insira o numero de letras da palavra: ");
+            scanf("%d", &input2);
+            removePalavraLoop(&text);
+            for(x = 0; x < input; x++)
+            {
+                removeLetraLoop(&word);
+                for(y = 0; y < input2; y++)
+                {
+                    inputLetra = (rand() % 25) + 65;
+                    insereLetra(&word, inputLetra);
+                }
+                //printf("%s", word.palavra);
+                inserePalavra(&text, &word);
+            }
+            input = -1;
         }
         if(input == 3)
         {
-
+            printf("Insira o numero de textos da biblioteca: ");
+            scanf("%d", &input);
+            printf("Insira o numero de palavras do texto: ");
+            scanf("%d", &input2);
+            printf("Insira o numero de letras da palavra: ");
+            scanf("%d", &input3);
+            removeTextoLoop(&bib);
+            for(x = 0; x < input; x++) //Biblioteca
+            {
+                removePalavraLoop(&text);
+                for(y = 0; y < input2; y++) //Texto
+                {
+                    removeLetraLoop(&word);
+                    for(z = 0; z < input3; z++) //Palavra
+                    {
+                        inputLetra = (rand() % 25) + 65;
+                        insereLetra(&word, inputLetra);
+                    }
+                    inserePalavra(&text, &word);
+                }
+                insereTexto(&bib, &text);
+            }
+            input = -1;
 
         }
         if(input == 4)
         {
-            y = word.tamanho;
-            for(x = 0; x < y; x++)
-            {
-                removeLetra(&word.palavra, word.palavra[0]);
-            }
+            removeLetraLoop(&word);
         }
         if(input == 5)
         {
-            //removePalavra(&text, &word);
+            removePalavraLoop(&text);
         }
         if(input == 6)
         {
-            //removeTexto(&bib, &text);
+            removeTextoLoop(&bib);
         }
         if(input == 7)
         {
-            printf("Imprimindo Palavra \n");
+            printf("Imprimindo Palavra\n");
             imprimePalavra(word);
             tamanhoPalavra(&word);
             system("pause");
-            //imprimeBiblioteca(&bib);
         }
         if(input == 8)
         {
-
+            printf("Imprimindo Texto\n");
+            imprimeTexto(&text);
+            tamanhoTexto(&text);
+            system("pause");
 
         }
         if(input == 9)
         {
+            printf("Imprimindo Biblioteca\n");
+            imprimeBiblioteca(&bib);
+            tamanhoBiblioteca(&bib);
+            system("pause");
 
 
         }
-        if(input == 10)
+        if(input == 11)
         {
             return 0;
         }
+        input = -1;
     }
 
     }
@@ -160,8 +214,17 @@ int main()
             //tamanhoPalavra(&word);
             tamanhoBiblioteca(&bib);
         }
+            //Remove texto
+            printf("Digite a posicao da palavra no texto a ser removida: ");
+            scanf("%d", &input);
+            removePalavra(&text, input);
+            input = -1;
 
-
+            //Remove biblioteca
+            printf("Digite a posicao do texto na biblioteca a ser removido: ");
+            scanf("%d", &input);
+            removeTexto(&bib, input);
+            input = -1;
     }
     }
 
